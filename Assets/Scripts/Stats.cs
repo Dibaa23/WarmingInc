@@ -24,32 +24,13 @@ public class Stats : MonoBehaviour
 
     void Update()
     {
-        // Use the new Input System to check for key presses
-        // Assuming 'T' decreases people, 'G' decreases economy, 'B' decreases ecosystem
-        // Assuming 'Y' heals people, 'H' heals economy, 'N' heals ecosystem
-        if (Keyboard.current.tKey.wasPressedThisFrame)
+        // Check if the space bar is pressed
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            AdjustBar(peopleBar, ref peopleFill, -10);
-        }
-        if (Keyboard.current.gKey.wasPressedThisFrame)
-        {
-            AdjustBar(economyBar, ref economyFill, -10);
-        }
-        if (Keyboard.current.bKey.wasPressedThisFrame)
-        {
-            AdjustBar(ecosystemBar, ref ecosystemFill, -10);
-        }
-        if (Keyboard.current.yKey.wasPressedThisFrame)
-        {
-            AdjustBar(peopleBar, ref peopleFill, 10);
-        }
-        if (Keyboard.current.hKey.wasPressedThisFrame)
-        {
-            AdjustBar(economyBar, ref economyFill, 10);
-        }
-        if (Keyboard.current.nKey.wasPressedThisFrame)
-        {
-            AdjustBar(ecosystemBar, ref ecosystemFill, 10);
+            // Adjust the fill level of each bar by a random amount
+            AdjustBar(peopleBar, ref peopleFill, Random.Range(-10f, 10f));
+            AdjustBar(economyBar, ref economyFill, Random.Range(-10f, 10f));
+            AdjustBar(ecosystemBar, ref ecosystemFill, Random.Range(-10f, 10f));
         }
     }
 
