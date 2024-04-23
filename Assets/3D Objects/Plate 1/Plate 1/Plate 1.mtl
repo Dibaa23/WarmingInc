@@ -1,0 +1,16 @@
+# Exported from Nomad Sculpt
+
+newmtl Cylinder
+ map_Kd Cylinder_color_3.png
+ map_roughness Cylinder_roughness_3.png
+ map_metallic Cylinder_metalness_3.png
+
+newmtl Cone_Cone
+ map_Kd Cone-color.png
+ map_roughness Cone-roughness.png
+ map_metallic Cone-metallic.png
+
+newmtl Cone_ext
+ map_Kd Cone_ext-color.png
+ map_roughness Cone_ext-roughness.png
+ map_metallic Cone_ext-metallic.png
