@@ -2,9 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
+using TMPro;  // Add this at the top with other 'using' directives
+
 
 public class loadData : MonoBehaviour
 {
+
+    public TextMeshProUGUI policyText;  // Public reference to the TextMeshPro UI component
     private string googleSheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeXBxxLO9ftjUVO5iWXDfzhw0KTlIOn8557uyOL98xmYmyoo-tdofdkad2Jbcaet4If7xDD_yHZH18/pub?gid=0&single=true&output=csv";
 
     void Start()
@@ -32,12 +36,11 @@ public class loadData : MonoBehaviour
     {
         // Split the data into rows.
         string[] rows = csvData.Split('\n');
+        policyText.text = "";  // Initialize or clear existing text
         foreach (string row in rows)
         {
-            // Split each row into columns. Assume columns are separated by commas.
-            string[] columns = row.Split(',');
-            // Process each column as needed
-            Debug.Log("Row data: " + string.Join(", ", columns));
+            // Append each row as a new line in the TextMeshPro text
+            policyText.text += row + "\n";
         }
     }
 }
