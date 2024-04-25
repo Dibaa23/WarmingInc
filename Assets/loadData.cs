@@ -6,7 +6,11 @@ using System.Collections;
 
 public class loadData : MonoBehaviour
 {
-    public TextMeshProUGUI policyText;  // Reference to TextMeshPro
+    public TextMeshProUGUI yearText;  // Reference to TextMeshPro for the year
+    public TextMeshProUGUI policyText;  // Reference to TextMeshPro for the policy name
+    public TextMeshProUGUI descriptionText;  // Reference to TextMeshPro for the description
+    public TextMeshProUGUI effectsText;  // Reference to TextMeshPro for the effects
+
     public Stats statsScript;  // Reference to the Stats script component
     private string[] rows; // Array to store rows of data
     private int currentRow = 1; // Index of the current row being displayed
@@ -68,15 +72,24 @@ public class loadData : MonoBehaviour
         if (currentRow < rows.Length - 1)
         {
             currentRow++;
-            DisplayCurrentRow();
+        } else {
+            currentRow = 1; // Loop back to the first row if at the end
         }
+        DisplayCurrentRow();
     }
 
     void DisplayCurrentRow()
     {
         if (currentRow < rows.Length)
         {
-            policyText.text = rows[currentRow];
+            string[] columns = rows[currentRow].Split(',');
+            yearText.text = $"Year: {columns[0]}";
+            policyText.text = $"Policy: {columns[1]}";
+            descriptionText.text = $"Description: {columns[2]}";
+            effectsText.text = $"Effects:\n" +
+                           $"People: {columns[3].Trim()}%\n" +
+                           $"Economy: {columns[4].Trim()}%\n" +
+                           $"Ecosystem: {columns[5].Trim()}%";
         }
     }
 }
