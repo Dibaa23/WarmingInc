@@ -1,18 +1,15 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.Networking;
-using System.Linq;
-using TMPro;  // Add this at the top with other 'using' directives
-
+using System.Collections;
 
 public class loadData : MonoBehaviour
 {
-
-    public TextMeshProUGUI policyText;  // Public reference to the TextMeshPro UI component
+    public TextMeshProUGUI policyText;  // Reference to TextMeshPro
+    public Stats statsScript;  // Reference to the Stats script component
     private string[] rows; // Array to store rows of data
-    private int currentRow = 0; // Index of the current row being displayed
+    private int currentRow = 1; // Index of the current row being displayed
     private string googleSheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeXBxxLO9ftjUVO5iWXDfzhw0KTlIOn8557uyOL98xmYmyoo-tdofdkad2Jbcaet4If7xDD_yHZH18/pub?gid=0&single=true&output=csv";
 
     void Start()
@@ -31,31 +28,43 @@ public class loadData : MonoBehaviour
         }
         else
         {
-            // Successfully downloaded the data
             ProcessData(request.downloadHandler.text);
         }
     }
 
     void ProcessData(string csvData)
     {
-        // Split the data into rows and store them
         rows = csvData.Split('\n');
-        currentRow = 1; // Start from the second row, skipping headers
         DisplayCurrentRow();
     }
 
     void Update()
     {
-        // Check if the space bar is pressed
+        if (Keyboard.current.yKey.wasPressedThisFrame)
+        {
+            ApprovePolicy();
+        }
         if (Keyboard.current.tKey.wasPressedThisFrame)
         {
             NextRow();
         }
     }
 
+    void ApprovePolicy()
+    {
+        if (currentRow < rows.Length)
+        {
+            string[] columns = rows[currentRow].Split(',');
+            float peopleEffect = float.Parse(columns[3]);
+            float economyEffect = float.Parse(columns[4]);
+            float ecosystemEffect = float.Parse(columns[5]);
+            statsScript.ApplyPolicyEffects(peopleEffect, economyEffect, ecosystemEffect);
+            NextRow();  // Move to the next row after applying the policy effects
+        }
+    }
+
     void NextRow()
     {
-        // Increment the currentRow index and display the next row
         if (currentRow < rows.Length - 1)
         {
             currentRow++;
@@ -65,7 +74,6 @@ public class loadData : MonoBehaviour
 
     void DisplayCurrentRow()
     {
-        // Display the current row in the TextMeshPro text component
         if (currentRow < rows.Length)
         {
             policyText.text = rows[currentRow];

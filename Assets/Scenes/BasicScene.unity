@@ -398,7 +398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.997}
+  m_AnchoredPosition: {x: 0.03, y: 0.994}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &81657874
@@ -886,6 +886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   policyText: {fileID: 1622707183}
+  statsScript: {fileID: 1017592860}
 --- !u!4 &321347788
 Transform:
   m_ObjectHideFlags: 0
@@ -1561,6 +1562,7 @@ MonoBehaviour:
   peopleFill: 100
   economyFill: 100
   ecosystemFill: 100
+  fluctuationRange: 5
 --- !u!4 &1017592861
 Transform:
   m_ObjectHideFlags: 0

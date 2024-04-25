@@ -1,49 +1,62 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 public class Stats : MonoBehaviour
 {
-    // References to the UI Images that represent the bars
     public Image peopleBar;
     public Image economyBar;
     public Image ecosystemBar;
 
-    // The current fill levels for each bar
-    public float peopleFill = 100f;
-    public float economyFill = 100f;
-    public float ecosystemFill = 100f;
+    public float peopleFill = 50f;
+    public float economyFill = 50f;
+    public float ecosystemFill = 50f;
+
+    public float fluctuationRange = 10f;  // Maximum percentage point change per fluctuation
 
     void Start()
     {
-        // Set the initial fill amount for each UI bar
-        peopleBar.fillAmount = peopleFill / 100f;
-        economyBar.fillAmount = economyFill / 100f;
-        ecosystemBar.fillAmount = ecosystemFill / 100f;
+        UpdateBarDisplays();
+        InvokeRepeating("FluctuateStats", 1f, 0.5f);  // Start after 2 seconds and repeat every 5 seconds
     }
 
-    void Update()
+    void FluctuateStats()
     {
-        // Check if the space bar is pressed
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            // Adjust the fill level of each bar by a random amount
-            AdjustBar(peopleBar, ref peopleFill, Random.Range(-10f, 10f));
-            AdjustBar(economyBar, ref economyFill, Random.Range(-10f, 10f));
-            AdjustBar(ecosystemBar, ref ecosystemFill, Random.Range(-10f, 10f));
-        }
+        // Randomly adjust each stat by a value in the range of -fluctuationRange to fluctuationRange
+        AdjustBar(peopleBar, ref peopleFill, Random.Range(-fluctuationRange, fluctuationRange));
+        AdjustBar(economyBar, ref economyFill, Random.Range(-fluctuationRange, fluctuationRange));
+        AdjustBar(ecosystemBar, ref ecosystemFill, Random.Range(-fluctuationRange, fluctuationRange));
     }
 
-    // General method to adjust the fill level of a bar
+    public void ApplyPolicyEffects(float peopleEffect, float economyEffect, float ecosystemEffect)
+    {
+        peopleFill += peopleFill * (peopleEffect / 100f);
+        economyFill += economyFill * (economyEffect / 100f);
+        ecosystemFill += ecosystemFill * (ecosystemEffect / 100f);
+
+        ClampStats();
+        UpdateBarDisplays();
+    }
+
     void AdjustBar(Image bar, ref float fill, float amount)
     {
         fill += amount;
-        fill = Mathf.Clamp(fill, 0, 100); // Ensure fill stays within 0-100
-        bar.fillAmount = fill / 100f; // Update the UI element
+        ClampStats();
+        UpdateBarDisplays();
+    }
 
-        if (fill <= 0)
-        {
-            Debug.Log(bar.name + " bar depleted!");
-        }
+    void ClampStats()
+    {
+        // Ensure values remain within 0 and 100
+        peopleFill = Mathf.Clamp(peopleFill, 0, 100);
+        economyFill = Mathf.Clamp(economyFill, 0, 100);
+        ecosystemFill = Mathf.Clamp(ecosystemFill, 0, 100);
+    }
+
+    void UpdateBarDisplays()
+    {
+        // Update the UI element fill amounts
+        peopleBar.fillAmount = peopleFill / 100f;
+        economyBar.fillAmount = economyFill / 100f;
+        ecosystemBar.fillAmount = ecosystemFill / 100f;
     }
 }
