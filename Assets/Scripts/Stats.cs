@@ -29,9 +29,9 @@ public class Stats : MonoBehaviour
 
     public void ApplyPolicyEffects(float peopleEffect, float economyEffect, float ecosystemEffect)
     {
-        peopleFill += peopleFill * (peopleEffect / 100f);
-        economyFill += economyFill * (economyEffect / 100f);
-        ecosystemFill += ecosystemFill * (ecosystemEffect / 100f);
+        peopleFill += peopleFill * (peopleEffect / 200f);
+        economyFill += economyFill * (economyEffect / 200f);
+        ecosystemFill += ecosystemFill * (ecosystemEffect / 200f);
 
         ClampStats();
         UpdateBarDisplays();
